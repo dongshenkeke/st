@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../../jquery.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div>
+            <form action="ajax_reg.php" method="post" name="ajaxform" id="ajaxform">
+                用户名：<input type="text" name="username" id="username" onblur=""/><span class="error"></span>
+                <br><br>
+                密  码：<input type="password" name="password" id="password"/><span class="error"></span>
+                <br><br>
+                确认密码：<input type="password" name="verty" id="verty"/><span class="error"></span>
+                <br><br>
+                邮 箱：<input type="text" name="email" id="emali"/><span class="error"></span>
+                <br><br>
+                联系方式：<input type="text" name="contact" id="contact"/><span class="error"></span>
+                <br><br>
+                <input type="button" value="提交" name="submitform" id="submitform">
+                
+                
+            </form>
+        </div>
+        <script type="text/javascript">
+            $("#username").focus();//使光标聚焦框内
+            $("#username").blur(function(){//失去焦点
+                checkuser();
+            })
+            $("#sunbmintform").click(function(){//点击事件
+//                if(checkuser()|| !checkpassword()){
+//                    return false;
+//                }
+                $.post("ajax_reg.php",$("$ajaxform").serialize(),function(result){
+                    if(result==="成功"){
+                        alert("chengg");
+                        window.location.href="http://www.baidu.com";
+                    }else{
+                        alert(result);
+                    }
+                    //serialize表单数据序列化
+                },'text')
+//                $("$ajaxform").submit();
+            })
+            $("#password").blur(function(){
+                
+            })
+            function checkemail(){
+                var email=$("#email").val();
+                var email_reg=/^\w{3,12}@\w{3,4}\.(com|cn|net|cc)/;
+                if(!email_reg.test(email)){
+                    alert("邮箱格式有问题");
+                    return false;
+                }
+            return true;
+    }
+           function checkpassword(){
+               var password=$("#password").val();
+               if($.trim(password)==""){
+                   alert("密码不能为空");
+                   return false;
+               }
+               if(password.length<6){//字符串长度判断
+                   alert("密码长度不能少于6位");
+                   return false;
+               }
+               if(password.length>12){
+                   alert("密码长度不能大于12位");
+                   return false;
+               }
+           }
+              
+              $("#contact").blur(function(){
+                //checkcontact()
+            })
+            function checkcontact(){
+                var contact=$("#contact").val();
+                var contact_reg=/^\d{11}/;
+                if(!contact_reg.test(contact)){
+                    alert("手机号格式不正确");
+                    return false;
+                }
+                return true;
+            }
+
+            
+            function checkuser(){
+                var flag=true;
+                var username=$("#username").val();//$.trim
+                if($.trim(username)==""){//可以理解为focus事件处理函数调用时，还没有完成blur
+                    alert("用户名不能为空");
+//                    $("#username").focus();
+                    setTimeout(function(){$("#username").focus();},100);//setTimeout延迟方法
+                    flag=false;
+                }else{
+//                    $.post("ajax_form.php",{"username":username},function(result){
+//                        if(result=='1'){
+//                        alert("用户名已存在");
+//                        return false;
+//                        }
+//                    })
+                    $.ajax({
+                        url:"ajax_form.php",
+                        async:false,
+                        data:{"username":username},
+                        type:"POST",
+                        success:function(result){
+                            if(result=='1'){
+                                alert("用户名已存在");
+                                flag=false;
+                            }
+                        }
+                    })
+                }
+                return flag;
+            }
+        </script>
+    </body>
+</html>

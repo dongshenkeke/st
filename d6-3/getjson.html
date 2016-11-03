@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/jacascript" src="jquery.min.js"></script>
+    </head>
+    <body>
+        <a href="jacascript:void(0);" onclick="getJsonData()">点击</a>
+        <script type="text/javascript">
+            function getJsonData(){
+                //getJSON是把后台返回的json字符串当成json对象来处理
+                $.getJSON("getjson.php" , null , function(result){
+                    alert(result.username);
+                });
+                
+            }
+            
+            
+            
+            
+        </script>
+        
+    </body>
+</html>
